@@ -1,5 +1,7 @@
 # 🎮 Ball Parkour Game 🎮
 
+[![Play Now](https://img.shields.io/badge/Play%20Now-Online-brightgreen?style=for-the-badge&logo=github)](https://your-username.github.io/ball-parkour/)
+
 Welcome to Ball Parkour - where gravity is your friend and enemy at the same time! 🚀
 
 ## 🎯 What's This Game About?
@@ -8,8 +10,13 @@ Imagine you're a bouncy ball with dreams of reaching the stars! 🌟 Your missio
 
 ## 🎮 How to Play
 
-1. Open `index.html` in your favorite web browser
-2. Get ready to bounce! Here's how to control your ball:
+### Online Version
+Click the "Play Now" button at the top of this page to play directly in your browser! No downloads required! 🎮
+
+### Local Version
+1. Clone this repository
+2. Open `index.html` in your favorite web browser
+3. Get ready to bounce! Here's how to control your ball:
    - ⬅️ Left Arrow: Roll to the left
    - ➡️ Right Arrow: Roll to the right
    - ⚡ Space: Jump! (Only works when you're on a platform)
