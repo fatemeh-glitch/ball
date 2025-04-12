@@ -22,8 +22,8 @@ const ball = {
     radius: 20,
     dx: 0,
     dy: 0,
-    gravity: 0.3,
-    jumpForce: -10,
+    gravity: 0.5,
+    jumpForce: -12,
     color: '#ff6b6b',
     isInvincible: false,
     isDoubleJump: false,
@@ -42,7 +42,7 @@ const PLATFORM_TYPES = {
 const platforms = [];
 const platformWidth = 100;
 const platformHeight = 20;
-const platformGap = 120;
+const platformGap = 150;
 const platformCount = 5;
 
 // Generate initial platforms
@@ -185,6 +185,7 @@ function update() {
     }
 
     // Platform collision and auto-jump
+    let onPlatform = false;
     for (let platform of platforms) {
         if (platform.isVisible && ball.y + ball.radius > platform.y &&
             ball.y - ball.radius < platform.y + platform.height &&
@@ -193,7 +194,8 @@ function update() {
             
             if (ball.dy > 0) {
                 ball.y = platform.y - ball.radius;
-                ball.dy = ball.jumpForce;
+                ball.dy = ball.jumpForce; // Auto-jump when hitting platform
+                onPlatform = true;
                 ball.hasDoubleJumped = false;
 
                 // Platform type effects
@@ -252,7 +254,7 @@ function update() {
         scoreElement.textContent = score;
     }
 
-    // Game over condition - only when ball is far below screen
+    // Game over condition
     if (ball.y > canvas.height + 300) {
         if (!ball.isInvincible) {
             gameOver = true;
