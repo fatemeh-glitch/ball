@@ -61,7 +61,7 @@
         <canvas id="gameCanvas" width="800" height="600"></canvas>
         <div class="score">Score: <span id="score">0</span></div>
         <div class="instructions">
-            Use WASD to move | Auto-jumping enabled | R to restart
+            Use WASD to move | R to restart
         </div>
         <div id="combo">Combo: 0x</div>
     </div>
@@ -113,20 +113,25 @@
             // Input handling
             const keys = {
                 left: false,
-                right: false
+                right: false,
+                up: false,
+                down: false
             };
 
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') keys.left = true;
-                if (e.key === 'ArrowRight') keys.right = true;
-                if (e.key === ' ' && ball.dy === 0) ball.dy = ball.jumpForce;
-                if (e.key === 'r' && gameOver) resetGame();
+                if (e.key.toLowerCase() === 'a') keys.left = true;
+                if (e.key.toLowerCase() === 'd') keys.right = true;
+                if (e.key.toLowerCase() === 'w') keys.up = true;
+                if (e.key.toLowerCase() === 's') keys.down = true;
+                if (e.key.toLowerCase() === 'r' && gameOver) resetGame();
                 e.preventDefault();
             });
 
             document.addEventListener('keyup', (e) => {
-                if (e.key === 'ArrowLeft') keys.left = false;
-                if (e.key === 'ArrowRight') keys.right = false;
+                if (e.key.toLowerCase() === 'a') keys.left = false;
+                if (e.key.toLowerCase() === 'd') keys.right = false;
+                if (e.key.toLowerCase() === 'w') keys.up = false;
+                if (e.key.toLowerCase() === 's') keys.down = false;
                 e.preventDefault();
             });
 
