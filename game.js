@@ -22,8 +22,8 @@ const ball = {
     radius: 20,
     dx: 0,
     dy: 0,
-    gravity: 0.5,
-    jumpForce: -12,
+    gravity: 0.3,
+    jumpForce: -8,
     color: '#ff6b6b',
     isInvincible: false,
     isDoubleJump: false,
@@ -42,12 +42,12 @@ const PLATFORM_TYPES = {
 const platforms = [];
 const platformWidth = 100;
 const platformHeight = 20;
-const platformGap = 200;
+const platformGap = 150;
 const platformCount = 5;
 
 // Generate initial platforms
 for (let i = 0; i < platformCount; i++) {
-    platforms.push(createPlatform(canvas.height - (i * platformGap)));
+    platforms.push(createPlatform(canvas.height - (i * platformGap) - 100));
 }
 
 // Create platform with random type
@@ -162,29 +162,31 @@ function update() {
         return powerUp.y < canvas.height;
     });
 
-    // Apply gravity
-    ball.dy += ball.gravity;
-
-    // Handle horizontal movement
-    if (keys.left) ball.dx = -5;
-    else if (keys.right) ball.dx = 5;
+    // Handle movement
+    if (keys.left) ball.dx = -4;
+    else if (keys.right) ball.dx = 4;
     else ball.dx = 0;
+
+    if (keys.up) {
+        ball.dy = ball.jumpForce;
+        createParticles(ball.x, ball.y + ball.radius, ball.color);
+    }
 
     // Update ball position
     ball.x += ball.dx;
     ball.y += ball.dy;
 
-    // Wall collision
+    // Wall collision with bounce
     if (ball.x - ball.radius < 0) {
         ball.x = ball.radius;
-        ball.dx = 0;
+        ball.dx = -ball.dx * 0.5;
     }
     if (ball.x + ball.radius > canvas.width) {
         ball.x = canvas.width - ball.radius;
-        ball.dx = 0;
+        ball.dx = -ball.dx * 0.5;
     }
 
-    // Platform collision and auto-jump
+    // Platform collision and updates
     for (let platform of platforms) {
         if (platform.isVisible && ball.y + ball.radius > platform.y &&
             ball.y - ball.radius < platform.y + platform.height &&
@@ -193,7 +195,7 @@ function update() {
             
             if (ball.dy > 0) {
                 ball.y = platform.y - ball.radius;
-                ball.dy = ball.jumpForce; // Auto-jump when hitting platform
+                ball.dy = 0;
                 ball.hasDoubleJumped = false;
 
                 // Platform type effects
@@ -252,8 +254,8 @@ function update() {
         scoreElement.textContent = score;
     }
 
-    // Game over condition
-    if (ball.y > canvas.height) {
+    // Game over condition - only when ball is far below screen
+    if (ball.y > canvas.height + 200) {
         if (!ball.isInvincible) {
             gameOver = true;
         } else {
@@ -333,7 +335,7 @@ document.addEventListener('keydown', (e) => {
         powerUps.length = 0;
         particles.length = 0;
         for (let i = 0; i < platformCount; i++) {
-            platforms.push(createPlatform(canvas.height - (i * platformGap)));
+            platforms.push(createPlatform(canvas.height - (i * platformGap) - 100));
         }
     }
 });
