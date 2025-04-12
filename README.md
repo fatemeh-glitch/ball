@@ -1,6 +1,6 @@
 # 🎮 Ball Parkour Game 🎮
 
-[![Play Now](https://img.shields.io/badge/Play%20Now-Online-brightgreen?style=for-the-badge&logo=github)](https://your-username.github.io/ball-parkour/)
+[![Play Now](https://img.shields.io/badge/Play%20Now-Online-brightgreen?style=for-the-badge&logo=github)](https://fatemeh-glitch.github.io/ball-parkour/)
 
 Welcome to Ball Parkour - where gravity is your friend and enemy at the same time! 🚀
 

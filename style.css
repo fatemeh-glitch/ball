@@ -30,4 +30,14 @@ body {
     color: white;
     font-size: 24px;
     font-weight: bold;
+}
+
+#combo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: #ff6b6b;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 } 
