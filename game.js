@@ -125,27 +125,23 @@ function createParticles(x, y, color) {
 // Input handling
 let keys = {
     left: false,
-    right: false
+    right: false,
+    up: false,
+    down: false
 };
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') keys.left = true;
-    if (e.key === 'ArrowRight') keys.right = true;
-    if (e.key === ' ') {
-        if (ball.dy === 0) {
-            ball.dy = ball.jumpForce;
-            createParticles(ball.x, ball.y + ball.radius, ball.color);
-        } else if (ball.isDoubleJump && !ball.hasDoubleJumped) {
-            ball.dy = ball.jumpForce * 0.8;
-            ball.hasDoubleJumped = true;
-            createParticles(ball.x, ball.y + ball.radius, '#4ecdc4');
-        }
-    }
+    if (e.key.toLowerCase() === 'a') keys.left = true;
+    if (e.key.toLowerCase() === 'd') keys.right = true;
+    if (e.key.toLowerCase() === 'w') keys.up = true;
+    if (e.key.toLowerCase() === 's') keys.down = true;
 });
 
 document.addEventListener('keyup', (e) => {
-    if (e.key === 'ArrowLeft') keys.left = false;
-    if (e.key === 'ArrowRight') keys.right = false;
+    if (e.key.toLowerCase() === 'a') keys.left = false;
+    if (e.key.toLowerCase() === 'd') keys.right = false;
+    if (e.key.toLowerCase() === 'w') keys.up = false;
+    if (e.key.toLowerCase() === 's') keys.down = false;
 });
 
 // Game loop
@@ -188,23 +184,8 @@ function update() {
         ball.dx = 0;
     }
 
-    // Platform collision and updates
+    // Platform collision and auto-jump
     for (let platform of platforms) {
-        // Update platform based on type
-        if (platform.type === PLATFORM_TYPES.MOVING) {
-            platform.x += platform.speed * platform.direction;
-            if (platform.x <= 0 || platform.x + platform.width >= canvas.width) {
-                platform.direction *= -1;
-            }
-        } else if (platform.type === PLATFORM_TYPES.DISAPPEARING && !platform.isVisible) {
-            platform.disappearTimer++;
-            if (platform.disappearTimer > 120) {
-                platform.isVisible = true;
-                platform.disappearTimer = 0;
-            }
-        }
-
-        // Check collision
         if (platform.isVisible && ball.y + ball.radius > platform.y &&
             ball.y - ball.radius < platform.y + platform.height &&
             ball.x + ball.radius > platform.x &&
@@ -212,7 +193,7 @@ function update() {
             
             if (ball.dy > 0) {
                 ball.y = platform.y - ball.radius;
-                ball.dy = 0;
+                ball.dy = ball.jumpForce; // Auto-jump when hitting platform
                 ball.hasDoubleJumped = false;
 
                 // Platform type effects
